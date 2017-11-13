@@ -1,0 +1,65 @@
+diff --git a/baselines/deepq/experiments/atari/download_model.py b/baselines/deepq/experiments/atari/download_model.py
+index 5a40946..615cf9a 100644
+--- a/baselines/deepq/experiments/atari/download_model.py
++++ b/baselines/deepq/experiments/atari/download_model.py
+@@ -1,6 +1,5 @@
+ import argparse
+ import progressbar
+-
+ from baselines.common.azure_utils import Container
+ 
+ 
+diff --git a/baselines/deepq/experiments/enjoy_cartpole.py b/baselines/deepq/experiments/enjoy_cartpole.py
+index 1c6176b..3102a1c 100644
+--- a/baselines/deepq/experiments/enjoy_cartpole.py
++++ b/baselines/deepq/experiments/enjoy_cartpole.py
+@@ -4,9 +4,9 @@ from baselines import deepq
+ 
+ 
+ def main():
+-    env = gym.make("CartPole-v0")
++    #env = gym.make("CartPole-v0")
+     act = deepq.load("cartpole_model.pkl")
+-
++    env = gym.make("CartPole-v0")
+     while True:
+         obs, done = env.reset(), False
+         episode_rew = 0
+diff --git a/baselines/deepq/simple.py b/baselines/deepq/simple.py
+index 091e81f..14a0c9b 100644
+--- a/baselines/deepq/simple.py
++++ b/baselines/deepq/simple.py
+@@ -5,12 +5,13 @@ import tensorflow as tf
+ import zipfile
+ import cloudpickle
+ import numpy as np
+-
++import baselines
+ import gym
+ import baselines.common.tf_util as U
+ from baselines import logger
+ from baselines.common.schedules import LinearSchedule
+-from baselines import deepq
++from baselines.deepq.build_graph import build_act, build_train
++#from baselines import deepq
+ from baselines.deepq.replay_buffer import ReplayBuffer, PrioritizedReplayBuffer
+ 
+ 
+@@ -23,7 +24,7 @@ class ActWrapper(object):
+     def load(path):
+         with open(path, "rb") as f:
+             model_data, act_params = cloudpickle.load(f)
+-        act = deepq.build_act(**act_params)
++        act = build_act(**act_params)
+         sess = tf.Session()
+         sess.__enter__()
+         with tempfile.TemporaryDirectory() as td:
+@@ -173,7 +174,7 @@ def learn(env,
+     def make_obs_ph(name):
+         return U.BatchInput(observation_space_shape, name=name)
+ 
+-    act, train, update_target, debug = deepq.build_train(
++    act, train, update_target, debug = build_train(
+         make_obs_ph=make_obs_ph,
+         q_func=q_func,
+         num_actions=env.action_space.n,
