@@ -8,3 +8,9 @@ from baselines.common.atari_wrappers import wrap_deepmind
 Start doing the code walk by looking at the train_pong.py and then digging into the definitions of the functions used there in simple.py
 
 Run enjoy_pong.py which is in the same folder as the train_pong.py to look at the results.
+
+My python version is 3.6
+I used the install instructions (about two three lines) from openAI page which is what I've also pasted below.
+git clone https://github.com/openai/baselines.git
+cd baselines
+pip install -e .
