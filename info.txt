@@ -1,0 +1,10 @@
+Place the train_pong.py file as baselines/deepq/experiments/train_pong.py
+
+Replace all instances of 
+from baselines.common.atari_wrappers_deprecated import wrap_dqn
+with
+from baselines.common.atari_wrappers import wrap_deepmind
+
+Start doing the code walk by looking at the train_pong.py and then digging into the definitions of the functions used there in simple.py
+
+Run enjoy_pong.py which is in the same folder as the train_pong.py to look at the results.
